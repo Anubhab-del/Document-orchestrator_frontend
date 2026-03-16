@@ -1,0 +1,212 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --void: #030308;
+  --void-1: #080812;
+  --void-2: #0d0d1e;
+  --void-3: #121228;
+  --amber: #ff9500;
+  --amber-dim: rgba(255, 149, 0, 0.12);
+  --amber-glow: rgba(255, 149, 0, 0.25);
+  --ice: #00ffcc;
+  --ice-dim: rgba(0, 255, 204, 0.08);
+  --ice-glow: rgba(0, 255, 204, 0.2);
+  --crimson: #ff3366;
+  --violet: #7b5ea7;
+  --text-0: #ffffff;
+  --text-1: #c8c8e0;
+  --text-2: #6868a0;
+  --text-3: #2a2a50;
+  --border-0: rgba(255, 255, 255, 0.08);
+  --border-1: rgba(255, 255, 255, 0.04);
+  --font-display: "Bebas Neue", system-ui, sans-serif;
+  --font-body: "Outfit", system-ui, sans-serif;
+  --font-mono: "DM Mono", monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--void);
+  color: var(--text-0);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ─── CURSOR ─────────────────────────────── */
+#cursor-dot {
+  position: fixed;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+  mix-blend-mode: screen;
+}
+#cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 149, 0, 0.4);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, border-color 0.3s;
+}
+body:has(button:hover) #cursor-dot {
+  width: 12px; height: 12px;
+  background: var(--ice);
+}
+body:has(button:hover) #cursor-ring {
+  width: 52px; height: 52px;
+  border-color: rgba(0, 255, 204, 0.5);
+}
+
+/* ─── SCROLLBAR ──────────────────────────── */
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: var(--void); }
+::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 2px; }
+
+/* ─── GLASS ──────────────────────────────── */
+.glass {
+  background: rgba(8, 8, 18, 0.75);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid var(--border-0);
+}
+
+/* ─── HOLOGRAPHIC BORDER ─────────────────── */
+.holo-border {
+  position: relative;
+  isolation: isolate;
+}
+.holo-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--holo-angle, 0deg),
+    #ff9500, #ff3366, #7b5ea7, #00ffcc, #ff9500
+  );
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.holo-border:hover::before { opacity: 0.6; }
+
+/* ─── GLOWS ──────────────────────────────── */
+.glow-amber {
+  box-shadow:
+    0 0 0 1px rgba(255,149,0,0.08),
+    0 8px 40px rgba(255,149,0,0.1),
+    0 40px 80px rgba(255,149,0,0.04);
+}
+.glow-ice {
+  box-shadow:
+    0 0 0 1px rgba(0,255,204,0.08),
+    0 8px 40px rgba(0,255,204,0.1),
+    0 40px 80px rgba(0,255,204,0.04);
+}
+.glow-violet {
+  box-shadow:
+    0 0 0 1px rgba(123,94,167,0.1),
+    0 8px 40px rgba(123,94,167,0.12);
+}
+
+/* ─── TYPOGRAPHY ─────────────────────────── */
+.display { font-family: var(--font-display); letter-spacing: 0.04em; }
+.mono { font-family: var(--font-mono); }
+
+.text-gradient-amber {
+  background: linear-gradient(135deg, #ff9500 0%, #ffb800 50%, #ff6600 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.text-gradient-ice {
+  background: linear-gradient(135deg, #00ffcc 0%, #00d4ff 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.text-gradient-hero {
+  background: linear-gradient(160deg, #ffffff 0%, #e0d0ff 30%, #ff9500 65%, #ffcc00 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* ─── NOISE ──────────────────────────────── */
+.noise::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; border-radius: inherit; z-index: 1;
+}
+
+/* ─── SHIMMER ────────────────────────────── */
+.shimmer {
+  background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.08) 50%, transparent 65%);
+  background-size: 300% 100%;
+  animation: shimmer 3s infinite;
+}
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* ─── ANIMATIONS ─────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-10px) rotate(0.5deg); }
+  66% { transform: translateY(-5px) rotate(-0.5deg); }
+}
+@keyframes scanline {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+@keyframes aurora {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.6; }
+  33% { transform: scale(1.3) rotate(120deg); opacity: 0.8; }
+  66% { transform: scale(0.9) rotate(240deg); opacity: 0.5; }
+}
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes borderRotate {
+  0% { --holo-angle: 0deg; }
+  100% { --holo-angle: 360deg; }
+}
+
+.float { animation: float 7s ease-in-out infinite; }
+.float-2 { animation: float 9s ease-in-out infinite 1.5s; }
+.float-3 { animation: float 11s ease-in-out infinite 3s; }
+
+/* ─── TAG ────────────────────────────────── */
+.tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 100px;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+
+/* ─── TIMELINE ───────────────────────────── */
+.timeline-line {
+  position: absolute; left: 11px; top: 24px; bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, var(--amber), transparent);
+}
+
+/* ─── TICKER ─────────────────────────────── */
+.ticker-track {
+  display: flex; gap: 0; width: max-content;
+  animation: ticker 30s linear infinite;
+}
+
+/* ─── MAGNETIC BTN ───────────────────────── */
+.magnetic { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
