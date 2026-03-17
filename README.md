@@ -74,7 +74,7 @@ VITE_API_URL=http://localhost:5000
 
 In production on Vercel set:
 ```env
-VITE_API_URL=https://your-render-backend.onrender.com
+ VITE_API_URL="https://doc-orchestrator-backend.onrender.com"
 ```
 
 ---
